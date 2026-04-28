@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سؤال خاص لدراين</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff0f3;
+            font-family: 'Cairo', sans-serif;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            width: 85%;
+            max-width: 350px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* تنسيق الصورة */
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #ff4d6d;
+            margin-bottom: 15px;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            min-height: 60px;
+            align-items: center;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-yes {
+            background-color: #ff4d6d;
+            color: white;
+            min-width: 100px;
+        }
+
+        .btn-no {
+            background-color: #8a8a8a;
+            color: white;
+            min-width: 80px;
+        }
+
+        .pulse {
+            animation: pulse-animation 2s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="card">
+    <img src="https://play-lh.googleusercontent.com/0_kMh3ElxON8vTXO_bt2rpczk_KY_Kh65_HQNO-QVxz7GKbjvrljkIUWGI56YpsGGw" alt="Profile" class="profile-pic pulse">
+    <h1 id="text-display">دراين عادي أسالج سؤال؟</h1>
+    <div class="buttons-wrapper" id="actions">
+        <button class="btn-yes" onclick="handleYes()">نعم</button>
+        <button class="btn-yes" onclick="handleYes()">نعم</button>
+    </div>
+</div>
+
+<script>
+    let currentStep = 1;
+    let noScale = 1;
+
+    function handleYes() {
+        const text = document.getElementById('text-display');
+        const actions = document.getElementById('actions');
+
+        if (currentStep === 1) {
+            text.innerText = "هل تحبيني؟";
+            actions.innerHTML = `
+                <button class="btn-yes" onclick="handleYes()">نعم</button>
+                <button class="btn-no" id="no-btn" onclick="handleNo()">لا</button>
+            `;
+            currentStep = 2;
+        } else {
+            showSuccess();
+        }
+    }
+
+    function handleNo() {
+        const noBtn = document.getElementById('no-btn');
+        noScale -= 0.25;
+        
+        if (noScale <= 0.2) {
+            noBtn.style.visibility = 'hidden';
+        } else {
+            noBtn.style.transform = `scale(${noScale})`;
+            noBtn.style.opacity = noScale;
+        }
+    }
+
+    function showSuccess() {
+        const card = document.getElementById('card');
+        card.innerHTML = `
+            <img src="https://play-lh.googleusercontent.com/0_kMh3ElxON8vTXO_bt2rpczk_KY_Kh65_HQNO-QVxz7GKbjvrljkIUWGI56YpsGGw" alt="Profile" class="profile-pic">
+            <h1 style="color: #ff4d6d;">كنت أدري! <br> وأنا أموت فيج يا دراين 💖</h1>
+        `;
+        startHearts();
+    }
+
+    function startHearts() {
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.innerHTML = "❤";
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '-20px';
+            heart.style.color = '#ff4d6d';
+            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            heart.style.transition = 'transform 3s linear, opacity 3s';
+            heart.style.zIndex = '1';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.style.transform = `translateY(110vh) rotate(${Math.random() * 360}deg)`;
+                heart.style.opacity = '0';
+            }, 100);
+
+            setTimeout(() => heart.remove(), 3000);
+        }, 200);
+    }
+</script>
+
+</body>
+</html>
